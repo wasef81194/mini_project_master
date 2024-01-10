@@ -36,13 +36,27 @@ class FdsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Fds
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findOneFDS($idProduit): ?Fds
+   {
+       return $this->createQueryBuilder('f')
+           ->andWhere('f.supprimer_le IS NULL')
+           ->innerJoin('f.produit', 'p')
+           ->andWhere('p.id = :idProduit')
+           ->setParameter('idProduit', $idProduit)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
+
+   public function findFDSASupprimer($idProduit): array
+   {
+       return $this->createQueryBuilder('f')
+            ->andWhere('f.supprimer_le IS NULL')
+            ->innerJoin('f.produit', 'p')
+            ->andWhere('p.id = :idProduit')
+            ->setParameter('idProduit', $idProduit)
+            ->getQuery()
+            ->getResult();
+       ;
+   }
 }

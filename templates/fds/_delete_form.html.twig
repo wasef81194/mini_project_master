@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_fds_delete', {'id': fds.id}) }}" onsubmit="return confirm('Voulez vous vraiment supprimer ce FDS?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ fds.id) }}">
+    <button class="btn">Supprimer ce fichier FDS</button>
+</form>

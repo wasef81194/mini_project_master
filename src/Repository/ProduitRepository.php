@@ -36,13 +36,12 @@ class ProduitRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Produit
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findAllNotDelete(): array
+   {
+       return $this->createQueryBuilder('p')
+           ->andWhere('p.supprimer_le IS NULL')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 }

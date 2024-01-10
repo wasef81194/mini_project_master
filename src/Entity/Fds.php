@@ -25,12 +25,14 @@ class Fds
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $supprimer_le = null;
 
-    #[ORM\OneToMany(mappedBy: 'fds', targetEntity: produit::class)]
-    private Collection $produit;
+    #[ORM\ManyToOne(inversedBy: 'fds')]
+    private ?Produit $produit = null;
+
+   
 
     public function __construct()
     {
-        $this->produit = new ArrayCollection();
+        
     }
 
     public function getId(): ?int
@@ -77,30 +79,17 @@ class Fds
     /**
      * @return Collection<int, produit>
      */
-    public function getProduit(): Collection
+
+    public function getProduit(): ?Produit
     {
         return $this->produit;
     }
 
-    public function addProduit(produit $produit): static
+    public function setProduit(?Produit $produit): static
     {
-        if (!$this->produit->contains($produit)) {
-            $this->produit->add($produit);
-            $produit->setFds($this);
-        }
+        $this->produit = $produit;
 
         return $this;
     }
-
-    public function removeProduit(produit $produit): static
-    {
-        if ($this->produit->removeElement($produit)) {
-            // set the owning side to null (unless already changed)
-            if ($produit->getFds() === $this) {
-                $produit->setFds(null);
-            }
-        }
-
-        return $this;
-    }
+    
 }

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fds index{% endblock %}
+
+{% block body %}
+    <h1>Fds index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Chemin_pdf</th>
+                <th>Creer_le</th>
+                <th>Supprimer_le</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fd in fds %}
+            <tr>
+                <td>{{ fd.id }}</td>
+                <td>{{ fd.cheminPdf }}</td>
+                <td>{{ fd.creerLe ? fd.creerLe|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ fd.supprimerLe ? fd.supprimerLe|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_fds_show', {'id': fd.id}) }}">show</a>
+                    <a href="{{ path('app_fds_edit', {'id': fd.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_fds_new') }}">Create new</a>
+{% endblock %}

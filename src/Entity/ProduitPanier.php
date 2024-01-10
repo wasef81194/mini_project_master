@@ -13,10 +13,10 @@ class ProduitPanier
 
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'produitPaniers')]
-    private ?produit $produit = null;
+    private ?Produit $produit = null;
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'produitPaniers')]
-    private ?panier $panier = null;
+    private ?Panier $panier = null;
 
 
     public function getQuantite(): ?int

@@ -14,6 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AuthController extends AbstractController
 {
@@ -28,7 +31,7 @@ class AuthController extends AbstractController
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
-         // last username entered by the user
+        //  last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('auth/connexion.html.twig', [
             'last_username' => $lastUsername,

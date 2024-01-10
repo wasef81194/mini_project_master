@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -23,6 +24,7 @@ class Produit
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\Type(type: 'numeric', message: 'Entrer un nombre')]
     private ?float $prix = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -31,19 +33,20 @@ class Produit
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $supprimer_le = null;
 
-    #[ORM\ManyToOne(inversedBy: 'produit')]
-    private ?Fds $fds = null;
-
     #[ORM\OneToMany(mappedBy: 'produit', targetEntity: ProduitPanier::class)]
     private Collection $produitPaniers;
 
     #[ORM\OneToMany(mappedBy: 'produit', targetEntity: DetailCommande::class)]
     private Collection $detailCommandes;
 
+    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Fds::class)]
+    private Collection $fds;
+
     public function __construct()
     {
         $this->produitPaniers = new ArrayCollection();
         $this->detailCommandes = new ArrayCollection();
+        $this->fds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,18 +114,6 @@ class Produit
         return $this;
     }
 
-    public function getFds(): ?Fds
-    {
-        return $this->fds;
-    }
-
-    public function setFds(?Fds $fds): static
-    {
-        $this->fds = $fds;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, ProduitPanier>
      */
@@ -177,6 +168,36 @@ class Produit
             // set the owning side to null (unless already changed)
             if ($detailCommande->getProduit() === $this) {
                 $detailCommande->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fds>
+     */
+    public function getFds(): Collection
+    {
+        return $this->fds;
+    }
+
+    public function addFd(Fds $fd): static
+    {
+        if (!$this->fds->contains($fd)) {
+            $this->fds->add($fd);
+            $fd->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFd(Fds $fd): static
+    {
+        if ($this->fds->removeElement($fd)) {
+            // set the owning side to null (unless already changed)
+            if ($fd->getProduit() === $this) {
+                $fd->setProduit(null);
             }
         }
 

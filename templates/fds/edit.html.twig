@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Fds{% endblock %}
+
+{% block body %}
+    <h1>Edit Fds</h1>
+
+    {{ include('fds/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_fds_index') }}">back to list</a>
+
+    {{ include('fds/_delete_form.html.twig') }}
+{% endblock %}

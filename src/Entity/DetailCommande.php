@@ -27,10 +27,10 @@ class DetailCommande
     private ?\DateTimeInterface $supprimer_le = null;
 
     #[ORM\ManyToOne(inversedBy: 'detailCommandes')]
-    private ?commande $commande = null;
+    private ?Commande $commande = null;
 
     #[ORM\ManyToOne(inversedBy: 'detailCommandes')]
-    private ?produit $produit = null;
+    private ?Produit $produit = null;
 
     public function getId(): ?int
     {
