@@ -1,4 +1,7 @@
 security:
+    role_hierarchy:
+        ROLE_USER: ROLE_USER
+        ROLE_ADMIN: ROLE_ADMIN
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -16,6 +19,10 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            logout:
+                clear_site_data:
+                    - cookies
+                    - storage
             form_login:
                 # "app_login" is the name of the route created previously
                 login_path: app_login
