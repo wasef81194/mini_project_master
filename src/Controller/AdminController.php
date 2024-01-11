@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Fds;
 use App\Entity\Produit;
+use App\Entity\ProduitPanier;
 use App\Form\ProduitType;
 use App\Repository\FdsRepository;
+use App\Repository\ProduitPanierRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -132,8 +134,16 @@ class AdminController extends AbstractController
     }
 
     #[Route('/produit/{id}', name: 'app_produit_delete', methods: ['POST'])]
-    public function deleteProduit(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
+    public function deleteProduit(Request $request, Produit $produit, EntityManagerInterface $entityManager, ProduitPanierRepository $produitPanierRepository): Response
     {
+        //Si le produit est supprimer on supprimer tous les produit panier lies au produit
+        $produitsPanier = $produitPanierRepository->findBy(['produit' => $produit]);
+        foreach ($produitsPanier as $produitPanier) {
+            $produitPanier->setSupprimerLe(new \DateTime);
+            $entityManager->persist($produitPanier);
+            $entityManager->flush();
+        }
+
         if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
             $produit->setSupprimerLe(new \DateTime);
             $entityManager->persist($produit);
@@ -145,16 +155,17 @@ class AdminController extends AbstractController
 
     //FDS
     #[Route('/fds/{id}', name: 'app_fds_delete', methods: ['POST'])]
-    public function deleteFds(Request $request, Fds $fds, EntityManagerInterface $entityManager, ProduitRepository $produitRepository): Response
+    public function deleteFds(Request $request, Fds $fds, EntityManagerInterface $entityManager): Response
     {
         $produit = $fds->getProduit();
-        $idPorduit = $produit->getId();
+        
+        $idProduit = $produit->getId();
         if ($this->isCsrfTokenValid('delete'.$fds->getId(), $request->request->get('_token'))) {
             $fds->setSupprimerLe(new \DateTime);
             $entityManager->persist($fds);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_produit_edit', ['id' => $idPorduit ], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_produit_edit', ['id' => $idProduit ], Response::HTTP_SEE_OTHER);
     }
 }

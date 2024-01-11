@@ -8,10 +8,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ produit.id }}</td>
-            </tr>
-            <tr>
                 <th>Nom</th>
                 <td>{{ produit.nom }}</td>
             </tr>
@@ -27,14 +23,11 @@
                 <th>Creer_le</th>
                 <td>{{ produit.creerLe ? produit.creerLe|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
-            <tr>
-                <th>Supprimer_le</th>
-                <td>{{ produit.supprimerLe ? produit.supprimerLe|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_produit_index') }}">back to list</a>
+    <a href="{{ path('app_produit_index') }}">Retour à la liste</a>
+     <a href="{{ path('app_panier_add', {'idProduit': produit.id}) }}">Ajouter au panier</a>
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
 

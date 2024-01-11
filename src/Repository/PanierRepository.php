@@ -36,13 +36,15 @@ class PanierRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Panier
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function findOneByUser($idUser): ?Panier
+   {
+       return $this->createQueryBuilder('p')
+            ->andWhere('p.supprimer_le IS NULL')
+            ->andWhere('p.utilisateur = :idUser')
+            ->setParameter('idUser', $idUser)
+            ->getQuery()
+            ->getOneOrNullResult()
+       ;
+   }
+
 }

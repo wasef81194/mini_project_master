@@ -27,11 +27,14 @@
                 <td>{{ produit.creerLe ? produit.creerLe|date('Y-m-d H:i:s') : '' }}</td>
                 {% if is_granted('ROLE_ADMIN') %}
                 <td>{{ produit.id }}</td>
+                {% endif %}
                 <td>
                     <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
+                    {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
+                     {% endif %}
                 </td>
-                {% endif %}
+              
             </tr>
         {% else %}
             <tr>

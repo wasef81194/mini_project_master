@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProduitPanierRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitPanierRepository::class)]
@@ -17,6 +18,12 @@ class ProduitPanier
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'produitPaniers')]
     private ?Panier $panier = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $creer_le = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $supprimer_le = null;
 
 
     public function getQuantite(): ?int
@@ -51,6 +58,30 @@ class ProduitPanier
     public function setPanier(?panier $panier): static
     {
         $this->panier = $panier;
+
+        return $this;
+    }
+
+    public function getCreerLe(): ?\DateTimeInterface
+    {
+        return $this->creer_le;
+    }
+
+    public function setCreerLe(\DateTimeInterface $creer_le): static
+    {
+        $this->creer_le = $creer_le;
+
+        return $this;
+    }
+
+    public function getSupprimerLe(): ?\DateTimeInterface
+    {
+        return $this->supprimer_le;
+    }
+
+    public function setSupprimerLe(?\DateTimeInterface $supprimer_le): static
+    {
+        $this->supprimer_le = $supprimer_le;
 
         return $this;
     }
