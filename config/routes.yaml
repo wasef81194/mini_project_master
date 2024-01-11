@@ -7,3 +7,5 @@ accueil:
     path: /
     controller: App\Controller\ProduitController::index
     methods: [GET]
+app_logout:
+    path: /logout
