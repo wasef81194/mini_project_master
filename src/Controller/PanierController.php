@@ -94,13 +94,17 @@ class PanierController extends AbstractController
         return $this->redirectToRoute('app_produit_show', ['id' => $idProduit ], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/retirer/produit/{idProduit}', name: 'app_panier_retirer_produit', methods: ['GET'])]
-    public function retirerProduit($idProduit, PanierRepository $panierRepository, ProduitPanierRepository $produitPanierRepository, EntityManagerInterface $entityManager): Response
+    #[Route('/retirer/produit/{id}', name: 'app_panier_retirer_produit', methods: ['GET'])]
+    public function retirerProduit($id, PanierRepository $panierRepository, ProduitRepository $produitRepository, ProduitPanierRepository $produitPanierRepository, EntityManagerInterface $entityManager): Response
     {
         $panier = $panierRepository->findOneBy(['utilisateur' => $this->getUser(), 'supprimer_le' => null]);
-        $produitPanier = $produitPanierRepository->findOneBy(['produit' => $idProduit, 'panier' => $panier]);
+        $produitPanier = $produitPanierRepository->findOneBy(['id' => $id]);
+        $produit = $produitPanier->getProduit();
         $produitPanier->setSupprimerLe(new \DateTime);
         $entityManager->persist($produitPanier);
+        $entityManager->flush();
+        $panier->setPrixTotal($panier->getPrixTotal() - ($produit->getPrix() * $produitPanier->getQuantite()));
+        $entityManager->persist($panier);
         $entityManager->flush();
         return $this->redirectToRoute('app_panier_show', [], Response::HTTP_SEE_OTHER);   
     }

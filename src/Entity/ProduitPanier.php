@@ -9,13 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProduitPanierRepository::class)]
 class ProduitPanier
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
     #[ORM\Column]
     private ?int $quantite = null;
 
-    #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'produitPaniers')]
     private ?Produit $produit = null;
-    #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'produitPaniers')]
     private ?Panier $panier = null;
 
@@ -25,7 +28,10 @@ class ProduitPanier
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $supprimer_le = null;
 
-
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
     public function getQuantite(): ?int
     {
         return $this->quantite;

@@ -23,7 +23,7 @@
                 <td>{{ produitPanier.produit.description }}</td>
                 <td>{{ produitPanier.produit.prix }}</td>
                 <td>{{ produitPanier.quantite }}</td>
-                <td><a href="{{ path('app_panier_retirer_produit', {'idProduit': produitPanier.produit.id}) }}">Retirer</a></td>
+                <td><a href="{{ path('app_panier_retirer_produit', {'id': produitPanier.id}) }}">Retirer</a></td>
             </tr>
         {% else %}
             <tr>
