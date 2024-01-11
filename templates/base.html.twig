@@ -15,7 +15,7 @@
        
         {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')%}
         <a href="{{ path('app_panier_show') }}">Panier</a>
-        <a href="{{ path('app_panier_show') }}">Acces FDS</a>
+        <a href="{{ path('app_produit_user') }}">Produit commandé</a>
         <a href="{{ path('app_logout') }}">Deconnexion</a>
         {% else %}
             <a href="{{ path('app_login') }}">Connexion</a>
