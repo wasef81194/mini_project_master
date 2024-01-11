@@ -32,4 +32,6 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <td><a href="{{ path('app_commande_new', {'idPanier': panier.id}) }}">Valider le panier</a></td>
 {% endblock %}
