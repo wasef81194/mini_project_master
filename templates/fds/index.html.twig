@@ -3,9 +3,9 @@
 {% block title %}Fds index{% endblock %}
 
 {% block body %}
-    <h1>Fds index</h1>
+    <h1 class="animated fadeInLeft">Fds index</h1>
 
-    <table class="table">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
@@ -23,8 +23,8 @@
                 <td>{{ fd.creerLe ? fd.creerLe|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ fd.supprimerLe ? fd.supprimerLe|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_fds_show', {'id': fd.id}) }}">show</a>
-                    <a href="{{ path('app_fds_edit', {'id': fd.id}) }}">edit</a>
+                    <a href="{{ path('app_fds_show', {'id': fd.id}) }}" class="btn btn-info">show</a>
+                    <a href="{{ path('app_fds_edit', {'id': fd.id}) }}" class="btn btn-warning">edit</a>
                 </td>
             </tr>
         {% else %}
